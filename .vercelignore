@@ -1,0 +1,7 @@
+README.md
+js/components/
+js/database.js
+js/utils.js
+build-standalone.mjs
+package.json
+package-lock.json

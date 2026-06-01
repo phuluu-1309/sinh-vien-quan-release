@@ -1,0 +1,21 @@
+{
+  "name": "sinh-vien-quan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sinh Viên Quán — ứng dụng đặt món mobile-first cho sinh viên (Căn tin IUH)",
+  "license": "UNLICENSED",
+  "scripts": {
+    "dev": "npx --yes serve . -l 3000",
+    "build": "node build-standalone.mjs",
+    "preview": "npx --yes serve dist -l 3000"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "sinh-vien-quan",
+    "food-ordering",
+    "mobile-spa",
+    "vercel"
+  ]
+}

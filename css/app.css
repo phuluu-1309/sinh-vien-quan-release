@@ -1,0 +1,527 @@
+/* Custom CSS variables and overrides for Sinh Viên Quán */
+
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+#main-root {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    scroll-behavior: smooth;
+}
+
+button,
+a,
+[role="switch"] {
+    touch-action: manipulation;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-slide-up,
+    .toast-enter,
+    .toast-exit,
+    .badge-pulse,
+    .squishy-button,
+    .decision-engine-glow:hover,
+    .app-intro__logo,
+    .app-intro__brand,
+    .app-intro__tagline-line,
+    .app-intro__tagline-accent,
+    .app-intro__sub,
+    .app-intro__badge,
+    .app-intro__progress-bar,
+    .app-intro__glow {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ========== Brand intro splash (3s) ========== */
+.app-intro-pending > *:not(#app-intro) {
+    visibility: hidden;
+}
+
+.app-intro {
+    position: absolute;
+    inset: 0;
+    z-index: 250;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(165deg, #fff8f6 0%, #ffe9e2 42%, #fce3da 100%);
+    border-radius: inherit;
+}
+
+.dark .app-intro {
+    background: linear-gradient(165deg, #251914 0%, #3c2d28 50%, #251914 100%);
+}
+
+.app-intro__glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(48px);
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.app-intro__glow--1 {
+    width: 200px;
+    height: 200px;
+    top: 12%;
+    right: -12%;
+    background: #f46b2a;
+    animation: introGlowDrift 3s ease-in-out infinite alternate;
+}
+
+.app-intro__glow--2 {
+    width: 160px;
+    height: 160px;
+    bottom: 18%;
+    left: -10%;
+    background: #a53c00;
+    animation: introGlowDrift 3s ease-in-out infinite alternate-reverse;
+}
+
+.app-intro__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1.5rem 1.75rem 4.5rem;
+    max-width: 320px;
+}
+
+.app-intro__badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    margin-bottom: 1.25rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #78350f;
+    background: rgba(251, 191, 36, 0.22);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    border-radius: 9999px;
+    animation: introFadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+}
+
+.dark .app-intro__badge {
+    color: #ffb598;
+    background: rgba(165, 60, 0, 0.25);
+    border-color: rgba(244, 107, 42, 0.35);
+}
+
+.app-intro__logo-wrap {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 1rem;
+    padding: 10px;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 12px 40px -8px rgba(165, 60, 0, 0.35);
+    animation: introLogoIn 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+}
+
+.dark .app-intro__logo-wrap {
+    background: #fff8f6;
+    box-shadow: 0 12px 40px -8px rgba(0, 0, 0, 0.4);
+}
+
+.app-intro__logo {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.app-intro__brand {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #251914;
+    letter-spacing: -0.02em;
+    margin: 0 0 1rem;
+    animation: introFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+}
+
+.dark .app-intro__brand {
+    color: #ffede7;
+}
+
+.app-intro__tagline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin-bottom: 0.75rem;
+}
+
+.app-intro__tagline-line {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.65rem;
+    line-height: 1.1;
+    letter-spacing: 0.03em;
+    color: #251914;
+    animation: introFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.55s both;
+}
+
+.dark .app-intro__tagline-line {
+    color: #fff8f6;
+}
+
+.app-intro__tagline-accent {
+    font-family: 'Anton', sans-serif;
+    font-size: 1.85rem;
+    line-height: 1.1;
+    letter-spacing: 0.04em;
+    color: #a53c00;
+    animation: introFadeUp 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.72s both;
+}
+
+.dark .app-intro__tagline-accent {
+    color: #f46b2a;
+}
+
+.app-intro__sub {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #594238;
+    margin: 0;
+    animation: introFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.9s both;
+}
+
+.dark .app-intro__sub {
+    color: #e0c0b3;
+}
+
+.app-intro__progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(165, 60, 0, 0.12);
+    z-index: 2;
+}
+
+.app-intro__progress-bar {
+    height: 100%;
+    width: 0;
+    background: linear-gradient(90deg, #a53c00, #f46b2a);
+    border-radius: 0 2px 2px 0;
+    animation: introProgress 3s linear forwards;
+}
+
+.app-intro--hide {
+    opacity: 0;
+    transform: scale(1.02);
+    transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+@keyframes introLogoIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.82);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes introFadeUp {
+    0% {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes introProgress {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+@keyframes introGlowDrift {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(-8px, 6px) scale(1.08);
+    }
+}
+
+/* Material symbols setup */
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    vertical-align: middle;
+}
+
+/* Scrollbar styling for native feel inside the app container */
+main::-webkit-scrollbar {
+    width: 4px;
+}
+main::-webkit-scrollbar-track {
+    background: transparent;
+}
+main::-webkit-scrollbar-thumb {
+    background: #e0c0b3;
+    border-radius: 4px;
+}
+.dark main::-webkit-scrollbar-thumb {
+    background: #594238;
+}
+
+/* Premium voucher dashed cut style */
+.voucher-cutout {
+    position: relative;
+    background-image: radial-gradient(circle at 0 50%, transparent 10px, currentColor 11px),
+                      radial-gradient(circle at 100% 50%, transparent 10px, currentColor 11px);
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.dotted-divider {
+    background-image: linear-gradient(to bottom, #8c7167 50%, rgba(255, 255, 255, 0) 0%);
+    background-position: right;
+    background-size: 2px 10px;
+    background-repeat: repeat-y;
+}
+
+/* Glow effects for active elements */
+.decision-engine-glow {
+    box-shadow: 0 10px 40px -10px rgba(165, 60, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.dark .decision-engine-glow {
+    box-shadow: 0 10px 40px -10px rgba(244, 107, 42, 0.1);
+}
+
+.decision-engine-glow:hover {
+    box-shadow: 0 15px 50px -5px rgba(165, 60, 0, 0.25);
+    transform: translateY(-2px);
+}
+
+/* Bottom Safe spacing */
+.pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Micro-interaction scale active states */
+.squishy-button {
+    transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.squishy-button:active {
+    transform: scale(0.96);
+}
+
+/* Slot Machine Animation styling for recommendation engine */
+.slot-machine-container {
+    height: 180px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 12px;
+}
+
+.slot-machine-track {
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.1s linear;
+}
+
+.slot-item {
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+/* Toast animations */
+@keyframes slideUpFade {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideDownFade {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+}
+
+.toast-enter {
+    animation: slideUpFade 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.toast-exit {
+    animation: slideDownFade 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Pulse badge */
+.badge-pulse {
+    animation: badgePulse 2s infinite;
+}
+
+@keyframes badgePulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(225, 29, 72, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(225, 29, 72, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(225, 29, 72, 0);
+    }
+}
+
+/* Screen 11, 12, 13 custom additions */
+.bottom-sheet-shadow {
+    box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1), 0 -8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.voucher-cutout-l {
+    mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 11px);
+    -webkit-mask-image: radial-gradient(circle at 0 50%, transparent 10px, black 11px);
+}
+
+.voucher-cutout-r {
+    mask-image: radial-gradient(circle at 100% 50%, transparent 10px, black 11px);
+    -webkit-mask-image: radial-gradient(circle at 100% 50%, transparent 10px, black 11px);
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.bottom-sheet-animate {
+    animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.overlay-animate {
+    animation: fadeIn 0.25s ease-out forwards;
+}
+
+/* Floating cart bar on menu */
+@keyframes slideUpCartBar {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-up {
+    animation: slideUpCartBar 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Screen enter — subtle, mobile-friendly */
+.animate-fade-in {
+    animation: fadeIn 0.28s ease-out forwards;
+}
+
+/* Minimum tap target helper for dense mobile UI */
+.tap-target {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* E-wallet QR checkout panel */
+.payment-qr-panel {
+    contain: layout style paint;
+}
+
+.payment-qr-frame {
+    text-align: center;
+}
+
+.payment-qr-wrap {
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.payment-qr-img {
+    display: block;
+    width: 220px;
+    max-width: min(220px, 72vw);
+    height: auto;
+    margin: 0 auto;
+    border-radius: 8px;
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+.payment-qr-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.payment-qr-logo img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: 50%;
+    background: #ffffff;
+    padding: 5px;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 10px rgba(37, 25, 20, 0.18);
+}
+

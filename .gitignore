@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Vercel
+.vercel/
+
+# Build output (optional single-file bundle)
+dist/
+
+# OS & editors
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/
+*.swp
+*~
+
+# Environment
+.env
+.env.*
+!.env.example
