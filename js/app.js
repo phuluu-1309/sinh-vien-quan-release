@@ -298,7 +298,12 @@ const state = {
     cartNote: '',
     appliedVoucherCode: null,
     paymentMethod: 'cash',
-    addedItemSheet: null
+    addedItemSheet: null,
+    showAddAddressForm: false,
+    addresses: [
+        { id: "a1", label: "Ký túc xá Khu B ĐHQG", desc: "Tòa B3, Phòng 502, Phường Linh Trung, Thủ Đức", isDefault: true },
+        { id: "a2", label: "Thư viện Trung tâm ĐHQG", desc: "Khu bàn tự học lầu 2, Kế cửa sổ hướng hồ đá", isDefault: false }
+    ]
 };
 
 // ==========================================
@@ -651,6 +656,7 @@ function renderHeader(state) {
         let pageTitle = "Sinh Viên Quán";
         if (state.currentRoute === '#/notifications') pageTitle = "Thông báo";
         if (state.currentRoute === '#/decision') pageTitle = "Quán Chọn Giúp";
+        if (state.currentRoute === '#/addresses') pageTitle = "Địa chỉ đã lưu";
 
         headerHTML = `
             <header class="absolute top-0 left-0 w-full z-50 flex justify-between items-center px-margin-mobile h-14 bg-surface-container-low dark:bg-surface-dim border-b border-outline-variant/10 shadow-sm transition-colors duration-300">
@@ -780,7 +786,7 @@ function renderDrawer(state) {
                     <span class="material-symbols-outlined" data-icon="stars">stars</span>
                     <span class="font-body-md text-sm">Ví điểm thưởng</span>
                 </a>
-                <a class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant dark:text-secondary-fixed-dim hover:bg-surface-variant/30 active:opacity-70 transition-colors" href="#/profile" onclick="window.toggleDrawer()">
+                <a class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant dark:text-secondary-fixed-dim hover:bg-surface-variant/30 active:opacity-70 transition-colors" href="#/addresses" onclick="window.toggleDrawer()">
                     <span class="material-symbols-outlined" data-icon="map">map</span>
                     <span class="font-body-md text-sm">Địa chỉ đã lưu</span>
                 </a>
@@ -1422,10 +1428,6 @@ function renderProfile(state) {
         { desc: "Tích điểm đơn hàng SVQ-023", pts: "+45", date: "12/05/2026" }
     ];
 
-    const addresses = [
-        { label: "Ký túc xá Khu B ĐHQG", desc: "Tòa B3, Phòng 502, Phường Linh Trung, Thủ Đức", isDefault: true },
-        { label: "Thư viện Trung tâm ĐHQG", desc: "Khu bàn tự học lầu 2, Kế cửa sổ hướng hồ đá", isDefault: false }
-    ];
 
     return `
         <div class="pt-16 pb-12 animate-fade-in select-none">
@@ -1478,7 +1480,7 @@ function renderProfile(state) {
                 </div>
                 
                 <div class="grid gap-3" id="address-list-root">
-                    ${addresses.map(a => `
+                    ${(state.addresses || []).map(a => `
                         <div class="p-3 border border-outline-variant/30 dark:border-outline/10 bg-surface-container-lowest dark:bg-surface-dim rounded-xl flex gap-3 shadow-sm select-none">
                             <span class="material-symbols-outlined text-primary text-xl shrink-0">location_on</span>
                             <div class="flex-grow space-y-1">
@@ -1492,6 +1494,94 @@ function renderProfile(state) {
                     `).join('')}
                 </div>
             </section>
+        </div>
+    `;
+}
+
+function renderAddresses(state) {
+    const isAdding = state.showAddAddressForm || false;
+    const addList = state.addresses || [];
+
+    return `
+        <div class="pt-16 pb-12 animate-fade-in select-none">
+            <!-- Header section -->
+            <div class="mb-6 p-4 bg-gradient-to-br from-primary/10 to-primary-container/10 border border-primary/20 rounded-2xl shadow-sm">
+                <h2 class="font-bold text-lg text-primary dark:text-primary-fixed-dim flex items-center gap-2">
+                    <span class="material-symbols-outlined">map</span> Sổ địa chỉ
+                </h2>
+                <p class="text-xs text-on-surface-variant dark:text-secondary-fixed-dim mt-1">Lưu các địa điểm nhận hàng thường xuyên tại trường hoặc ký túc xá để đặt hàng nhanh chóng.</p>
+            </div>
+
+            <!-- Form to Add New Address -->
+            ${isAdding ? `
+                <div class="mb-6 p-4 bg-surface-container-lowest dark:bg-surface-dim border-2 border-primary/30 rounded-2xl shadow-md animate-fade-in">
+                    <h3 class="font-bold text-sm text-primary dark:text-primary-fixed-dim mb-3 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-base">add_location_alt</span> Thêm địa chỉ mới
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant dark:text-secondary-fixed-dim mb-1" for="addr-label">Tên địa điểm</label>
+                            <input type="text" id="addr-label" placeholder="Ví dụ: Ký túc xá Khu B, Thư viện..." class="w-full text-xs p-2.5 rounded-xl border border-outline-variant/50 bg-surface dark:bg-inverse-surface dark:text-white focus:outline-none focus:border-primary">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-on-surface-variant dark:text-secondary-fixed-dim mb-1" for="addr-desc">Địa chỉ chi tiết</label>
+                            <textarea id="addr-desc" placeholder="Tòa nhà, số phòng, số bàn, hướng đi..." rows="2" class="w-full text-xs p-2.5 rounded-xl border border-outline-variant/50 bg-surface dark:bg-inverse-surface dark:text-white focus:outline-none focus:border-primary"></textarea>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="addr-default" class="rounded text-primary focus:ring-primary border-outline-variant/50">
+                            <label for="addr-default" class="text-xs font-semibold text-on-surface-variant dark:text-secondary-fixed-dim select-none cursor-pointer">Đặt làm địa chỉ mặc định</label>
+                        </div>
+                        <div class="flex gap-2.5 pt-2">
+                            <button onclick="window.saveAddress()" class="flex-grow bg-primary text-white text-xs font-bold py-2.5 rounded-xl shadow-sm hover:bg-primary-container transition-all active:scale-[0.98]">
+                                Lưu địa chỉ
+                            </button>
+                            <button onclick="window.toggleAddAddressForm(false)" class="px-4 bg-surface-container-high dark:bg-surface-variant/40 text-on-surface-variant dark:text-white text-xs font-bold py-2.5 rounded-xl border border-outline-variant/30 hover:bg-surface-container-highest transition-all active:scale-[0.98]">
+                                Hủy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ` : `
+                <div class="mb-6 flex justify-between items-center">
+                    <span class="text-xs text-on-surface-variant dark:text-secondary-fixed-dim font-bold">Danh sách địa chỉ (${addList.length})</span>
+                    <button class="text-xs font-bold bg-primary/10 text-primary border border-primary/20 px-3 py-1.5 rounded-xl hover:bg-primary/20 shrink-0 flex items-center gap-1 transition-all" onclick="window.toggleAddAddressForm(true)">
+                        <span class="material-symbols-outlined text-sm">add</span> Thêm mới
+                    </button>
+                </div>
+            `}
+
+            <!-- Address List -->
+            <div class="grid gap-3" id="addresses-page-list">
+                ${addList.length === 0 ? `
+                    <div class="p-8 text-center text-on-surface-variant dark:text-secondary-fixed-dim">
+                        <span class="material-symbols-outlined text-4xl opacity-40">wrong_location</span>
+                        <p class="text-xs mt-2">Chưa có địa chỉ nào được lưu.</p>
+                    </div>
+                ` : addList.map(a => `
+                    <div class="p-4 border ${a.isDefault ? 'border-primary/40 bg-primary/5 dark:border-primary-fixed-dim/30 dark:bg-primary-fixed/5' : 'border-outline-variant/30 dark:border-outline/10 bg-surface-container-lowest dark:bg-surface-dim'} rounded-2xl flex gap-3 shadow-sm select-none transition-all hover:shadow-md relative group">
+                        <span class="material-symbols-outlined text-primary text-xl shrink-0 mt-0.5">location_on</span>
+                        <div class="flex-grow space-y-1.5 pr-8">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <h4 class="font-bold text-xs text-on-surface dark:text-white">${a.label}</h4>
+                                ${a.isDefault ? `<span class="px-1.5 py-0.5 bg-status-green/10 text-status-green border border-status-green/20 rounded text-[9px] font-bold shrink-0">Mặc định</span>` : ''}
+                            </div>
+                            <p class="text-[10px] text-on-surface-variant dark:text-secondary-fixed-dim leading-relaxed">${a.desc}</p>
+                            
+                            <!-- Action links -->
+                            <div class="flex items-center gap-3 pt-1 select-none">
+                                ${!a.isDefault ? `
+                                    <button onclick="window.setDefaultAddress('${a.id}')" class="text-[10px] font-bold text-primary hover:underline flex items-center gap-0.5">
+                                        Thiết lập mặc định
+                                    </button>
+                                ` : ''}
+                                <button onclick="window.deleteAddress('${a.id}')" class="text-[10px] font-bold text-error hover:underline flex items-center gap-0.5">
+                                    Xóa
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('')}
+            </div>
         </div>
     `;
 }
@@ -1986,6 +2076,9 @@ function renderApp() {
         case '#/profile':
             mainRoot.innerHTML = renderProfile(state);
             break;
+        case '#/addresses':
+            mainRoot.innerHTML = renderAddresses(state);
+            break;
         case '#/cart':
             mainRoot.innerHTML = renderCartPage(state);
             break;
@@ -2349,7 +2442,69 @@ window.handleLogout = () => {
 };
 
 window.addMockAddress = () => {
-    showToast("Tính năng thêm địa chỉ đang được cập nhật!", "info");
+    state.showAddAddressForm = true;
+    window.location.hash = '#/addresses';
+};
+
+window.toggleAddAddressForm = (show) => {
+    state.showAddAddressForm = show;
+    scheduleRenderApp();
+};
+
+window.setDefaultAddress = (id) => {
+    if (!state.addresses) return;
+    state.addresses.forEach(a => {
+        a.isDefault = (a.id === id);
+    });
+    showToast("Đã thiết lập địa chỉ mặc định!", "success");
+    scheduleRenderApp();
+};
+
+window.deleteAddress = (id) => {
+    if (!state.addresses) return;
+    const index = state.addresses.findIndex(a => a.id === id);
+    if (index === -1) return;
+    const wasDefault = state.addresses[index].isDefault;
+    state.addresses.splice(index, 1);
+    if (wasDefault && state.addresses.length > 0) {
+        state.addresses[0].isDefault = true;
+    }
+    showToast("Đã xóa địa chỉ thành công!", "success");
+    scheduleRenderApp();
+};
+
+window.saveAddress = () => {
+    const labelInput = document.getElementById('addr-label');
+    const descInput = document.getElementById('addr-desc');
+    const defaultCheckbox = document.getElementById('addr-default');
+    
+    if (!labelInput || !descInput) return;
+    
+    const label = labelInput.value.trim();
+    const desc = descInput.value.trim();
+    const isDefault = defaultCheckbox ? defaultCheckbox.checked : false;
+    
+    if (!label || !desc) {
+        showToast("Vui lòng nhập đầy đủ thông tin!", "warning");
+        return;
+    }
+    
+    if (!state.addresses) state.addresses = [];
+    
+    if (isDefault || state.addresses.length === 0) {
+        state.addresses.forEach(a => a.isDefault = false);
+    }
+    
+    state.addresses.push({
+        id: 'addr-' + Date.now(),
+        label: label,
+        desc: desc,
+        isDefault: isDefault || state.addresses.length === 0
+    });
+    
+    state.showAddAddressForm = false;
+    showToast("Đã thêm địa chỉ mới thành công!", "success");
+    scheduleRenderApp();
 };
 
 // --- Mock Live Preparation Progress (per-order throttle) ---

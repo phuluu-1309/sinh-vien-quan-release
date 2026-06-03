@@ -37,7 +37,7 @@ export function renderDrawer(state) {
                     <span class="material-symbols-outlined" data-icon="stars">stars</span>
                     <span class="font-body-md text-sm">Ví điểm thưởng</span>
                 </a>
-                <a class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant dark:text-secondary-fixed-dim hover:bg-surface-variant/30 active:opacity-70 transition-colors" href="#/profile" onclick="window.toggleDrawer()">
+                <a class="flex items-center gap-4 p-3 rounded-lg text-on-surface-variant dark:text-secondary-fixed-dim hover:bg-surface-variant/30 active:opacity-70 transition-colors" href="#/addresses" onclick="window.toggleDrawer()">
                     <span class="material-symbols-outlined" data-icon="map">map</span>
                     <span class="font-body-md text-sm">Địa chỉ đã lưu</span>
                 </a>

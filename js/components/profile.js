@@ -9,10 +9,6 @@ export function renderProfile(state) {
         { desc: "Tích điểm đơn hàng SVQ-023", pts: "+45", date: "12/05/2026" }
     ];
 
-    const addresses = [
-        { label: "Ký túc xá Khu B ĐHQG", desc: "Tòa B3, Phòng 502, Phường Linh Trung, Thủ Đức", isDefault: true },
-        { label: "Thư viện Trung tâm ĐHQG", desc: "Khu bàn tự học lầu 2, Kế cửa sổ hướng hồ đá", isDefault: false }
-    ];
 
     return `
         <div class="pt-16 pb-12 animate-fade-in select-none">
@@ -72,7 +68,7 @@ export function renderProfile(state) {
                 </div>
                 
                 <div class="grid gap-3" id="address-list-root">
-                    ${addresses.map(a => `
+                    ${(state.addresses || []).map(a => `
                         <div class="p-3 border border-outline-variant/30 dark:border-outline/10 bg-surface-container-lowest dark:bg-surface-dim rounded-xl flex gap-3 shadow-sm select-none">
                             <span class="material-symbols-outlined text-primary text-xl shrink-0">location_on</span>
                             <div class="flex-grow space-y-1">
